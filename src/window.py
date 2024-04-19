@@ -22,6 +22,7 @@ def submitGuess():
     global guessed
     guess = entry_guesser.get()
     if len(guess) > 1 or not guess.isalpha() or len(guess) == 0:
+        entry_guesser.delete(0, tk.END)
         return
     indexes = logic.checkGuess(guess)
     if indexes:
@@ -42,6 +43,7 @@ def submitGuess():
 
     else:
         if guess in guessed:
+            entry_guesser.delete(0, tk.END)
             return
         guessed.append(guess)
         updateGuessedLetters(guess)
@@ -51,19 +53,31 @@ def submitGuess():
 window = tk.Tk()
 window.geometry("600x800")
 
+# frame for guessed letters so it doesnt move everyting else
+frame_guessed_letters = tk.Frame(window)
+frame_guessed_letters.grid(column=0, row=0, sticky='ns')
+
 # Element definitions
-lbl_GuessedLetters = tk.Label(text="Failed Letters:\n")
-lbl_GuessedLetters.grid(column=0, row=0, sticky='w')
+lbl_GuessedLetters = tk.Label(frame_guessed_letters, text="Failed\nLetters:\n", justify=tk.CENTER, font=("Helvetica", 20))
+lbl_GuessedLetters.grid(column=0, row=0, sticky='w', padx=15)
 
-lbl_word = tk.Label(text="_ _ _ _ _", font=("Helvetica", 60))
-lbl_word.grid(column=0, row=1)
+# frame for everything else
+frame_other_components = tk.Frame(window)
+frame_other_components.grid(column=1, row=0, sticky='nsew') # nses so it can expand everywheere
 
-lbl_EntryTitle = tk.Label(text="Letter:")
-entry_guesser = tk.Entry(window)
-lbl_EntryTitle.grid(column=0, row=2, sticky='w')
-entry_guesser.grid(column=1, row=2)
+lbl_word = tk.Label(frame_other_components, text="_ _ _ _ _", font=("Helvetica", 60))
+lbl_word.grid(column=0, row=0)
 
-btn_Submit = tk.Button(text="Submit", command=lambda: submitGuess()) # Sends the guess to the logic class
+frame_entry = tk.Frame(frame_other_components)
+frame_entry.grid(column=0, row=1, sticky='w')
+
+lbl_EntryTitle = tk.Label(frame_entry, text="Letter:")
+entry_guesser = tk.Entry(frame_entry)
+
+lbl_EntryTitle.grid(column=0, row=0, sticky='e')
+entry_guesser.grid(column=1, row=0, sticky='w')
+
+btn_Submit = tk.Button(frame_other_components, text="Submit", command=lambda: submitGuess()) # Sends the guess to the logic class
 btn_Submit.grid(column=0, row=3, sticky='w')
 
 window.mainloop()  # Open the window
