@@ -1,6 +1,6 @@
 import tkinter as tk
 import logic
-import PIL
+# import PIL
 
 guessed = []
 # External functions
@@ -18,9 +18,9 @@ def updateGuessedLetters(letter):
     letters = previous + letter + "\n"
     lbl_GuessedLetters.config(text=letters)
 
-def submitGuess():
+def submitGuess(event):
     global guessed
-    guess = entry_guesser.get()
+    guess = event.widget.get()
     if len(guess) > 1 or not guess.isalpha() or len(guess) == 0:
         entry_guesser.delete(0, tk.END)
         return
@@ -29,18 +29,6 @@ def submitGuess():
         updateWord(guess, indexes)
         if "_" not in lbl_word.cget("text"):
             lbl_GuessedLetters.config(text="You Win!")
-
-
-
-
-
-# TODO: make a proper win screen
-
-
-
-
-
-
     else:
         if guess in guessed:
             entry_guesser.delete(0, tk.END)
@@ -77,8 +65,7 @@ entry_guesser = tk.Entry(frame_entry)
 lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
 
-btn_Submit = tk.Button(frame_other_components, text="Submit", command=lambda: submitGuess()) # Sends the guess to the logic class
-btn_Submit.grid(column=0, row=3, sticky='w')
+entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
 
 window.mainloop()  # Open the window
 
