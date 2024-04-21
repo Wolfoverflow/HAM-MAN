@@ -9,11 +9,11 @@ try:
 except ImportError:
     os.system(f"{pythonPath} -m pip install pillow")
     import PIL
-try:
-    from playsound import playsound
-except ImportError:
-    os.system(f"{pythonPath} -m pip install playsound")
-    from playsound import playsound
+# try:
+#     from playsound import playsound
+# except ImportError:
+#     os.system(f"{pythonPath} -m pip install playsound")
+#     from playsound import playsound
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))  # auto changes the directory so that it can access the text file
 
@@ -26,13 +26,13 @@ with open("words.txt", 'r') as f:
     words = f.read().split()  # wordlist
 
 word = choice(words)  # get a random word (not cryptographically secure)
+
 print(word)
 
 
 def checkGuess(guess):
     if guess not in word:
         # if the letter isnt in the word, return false
-        reduceHealth()
         return False
     elif guess in word:
         # returns all instances of the letter in the word
@@ -40,24 +40,12 @@ def checkGuess(guess):
         return indexes
 
 
-def displayStage():
-    stages = [
-        ImageTk.PhotoImage(Image.open("p0.png")),
-        ImageTk.PhotoImage(Image.open("p1.png")),
-        ImageTk.PhotoImage(Image.open("p2.png")),
-        ImageTk.PhotoImage(Image.open("p3.png")),
-        ImageTk.PhotoImage(Image.open("p4.png")),
-        ImageTk.PhotoImage(Image.open("p5.png")),
-        ImageTk.PhotoImage(Image.open("p6.png")),
-        ImageTk.PhotoImage(Image.open("p7.png")),
-        ImageTk.PhotoImage(Image.open("p8.png")),
-        ImageTk.PhotoImage(Image.open("p9.png")),
-        ImageTk.PhotoImage(Image.open("p10.png"))
-    ]
-    return stages[stage]
+def getStage():
+    return stage
 
 
 def isAlive():
+    print(stage)
     if stage < 10:
         return True
     else:
@@ -66,15 +54,13 @@ def isAlive():
 
 def reduceHealth():
     global stage
-    stage + 1
+    stage += 1
 
 
-def endSound(ending):
-    try:
-        if ending == True:
-            playsound("win.wav")
-        else:
-            playsound("lose.wav")
-    except Exception:
-        print("Look, okay, i couldn't find the error")
-        pass
+# def endSound(ending):
+#     if ending == True:
+#         sound = AudioSegment.from_wav("win.mp3")
+#         play(sound)
+#     else:
+#         sound = AudioSegment.from_wav("lose.mp3")
+#         play(sound)
