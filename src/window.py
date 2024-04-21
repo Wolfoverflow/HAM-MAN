@@ -1,7 +1,15 @@
 import tkinter as tk
 import logic
+from PIL import Image, ImageTk
+import os
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # auto changes the directory so that it can access the text file
+
+os.chdir("..")  # go up one directory
+os.chdir("assets")  # go into the assets folder
 
 guessed = []
+
 # External functions
 def updateWord(letter, index):
     word = lbl_word.cget("text")
@@ -25,28 +33,44 @@ def submitGuess(event):
         return
     indexes = logic.checkGuess(guess)
     if not logic.isAlive():
-        logic.endSound(False)
+        # logic.endSound(False)
         lbl_GuessedLetters.config(text="You lose...")
+        return
 
     if indexes:
         updateWord(guess, indexes)
         if "_" not in lbl_word.cget("text"):
-            logic.endSound(True)
+            # logic.endSound(True)
             lbl_GuessedLetters.config(text="U\nWin!")
+        entry_guesser.delete(0, tk.END)
+        return
     else:
         if guess in guessed:
             entry_guesser.delete(0, tk.END)
             return
-        logic.reduceHealth()
-        display_Hangman.create_image(350, 150, image=logic.displayStage())
+        display_Hangman.create_image(350, 150, image=images[logic.getStage()])
         guessed.append(guess)
         updateGuessedLetters(guess)
+        logic.reduceHealth()
     entry_guesser.delete(0, tk.END)
 
 # Window definition
 window = tk.Tk()
-window.configure(bg='white')
 window.geometry("800x600")
+
+images = [
+    ImageTk.PhotoImage(Image.open("p0.png")),
+    ImageTk.PhotoImage(Image.open("p1.png")),
+    ImageTk.PhotoImage(Image.open("p2.png")),
+    ImageTk.PhotoImage(Image.open("p3.png")),
+    ImageTk.PhotoImage(Image.open("p4.png")),
+    ImageTk.PhotoImage(Image.open("p5.png")),
+    ImageTk.PhotoImage(Image.open("p6.png")),
+    ImageTk.PhotoImage(Image.open("p7.png")),
+    ImageTk.PhotoImage(Image.open("p8.png")),
+    ImageTk.PhotoImage(Image.open("p9.png")),
+    ImageTk.PhotoImage(Image.open("p10.png"))
+]
 
 # frame for guessed letters so it doesnt move everyting else
 frame_guessed_letters = tk.Frame(window)
@@ -74,9 +98,9 @@ lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
 
 # Stage Display
-stage = logic.displayStage()  # Keep a reference to the image object
+stage = logic.getStage()  # Keep a reference to the image object
 display_Hangman = tk.Canvas(window, width=683, height=384)
-display_Hangman.create_image(350, 150, image=stage)
+display_Hangman.create_image(350, 150, image=images[stage])
 display_Hangman.grid(column=1, row=0)
 
 entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
@@ -85,6 +109,6 @@ def set_bg_white(window):
         child.configure(bg='white')
         set_bg_white(child)
 
-set_bg_white(window)
+# set_bg_white(window)
 
 window.mainloop()
