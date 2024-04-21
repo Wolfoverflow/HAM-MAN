@@ -37,9 +37,6 @@ def submitGuess(event):
         updateGuessedLetters(guess)
     entry_guesser.delete(0, tk.END)
 
-def displayStage():
-    logic.displayStage()
-
 # Window definition
 window = tk.Tk()
 window.geometry("600x800")
@@ -48,30 +45,27 @@ window.geometry("600x800")
 frame_guessed_letters = tk.Frame(window)
 frame_guessed_letters.grid(column=0, row=0, sticky='ns')
 
-# frame for everything else
-frame_other_components = tk.Frame(window)
-frame_other_components.grid(column=1, row=0, sticky='nsew') # nses so it can expand everywheere
-
-frame_entry = tk.Frame(frame_other_components)
-frame_entry.grid(column=0, row=2, sticky='w')
-
 # Element definitions
 lbl_GuessedLetters = tk.Label(frame_guessed_letters, text="Failed\nLetters:\n", justify=tk.CENTER, font=("Helvetica", 20))
 lbl_GuessedLetters.grid(column=0, row=0, sticky='w', padx=15)
 
-# Canvas definition
-hangman_image = tk.Canvas(frame_other_components, width=683, height=384)
-hangman_image.grid(column=0, row=0)
+# frame for everything else
+frame_other_components = tk.Frame(window)
+frame_other_components.grid(column=1, row=0, sticky='nsew') # nses so it can expand everywheere
 
 lbl_word = tk.Label(frame_other_components, text="_ _ _ _ _", font=("Helvetica", 60))
-lbl_word.grid(column=0, row=1)
+lbl_word.grid(column=0, row=0)
+
+frame_entry = tk.Frame(frame_other_components)
+frame_entry.grid(column=0, row=1, sticky='w')
 
 lbl_EntryTitle = tk.Label(frame_entry, text="Letter:")
-lbl_EntryTitle.grid(column=0, row=0, sticky='e')
-
 entry_guesser = tk.Entry(frame_entry)
+
+lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
 
 entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
 
 window.mainloop()  # Open the window
+
