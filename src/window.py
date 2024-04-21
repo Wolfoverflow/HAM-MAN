@@ -24,14 +24,21 @@ def submitGuess(event):
         entry_guesser.delete(0, tk.END)
         return
     indexes = logic.checkGuess(guess)
+    if not logic.isAlive():
+        logic.endSound(False)
+        lbl_GuessedLetters.config(text="You lose...")
+
     if indexes:
         updateWord(guess, indexes)
         if "_" not in lbl_word.cget("text"):
-            lbl_GuessedLetters.config(text="You Win!")
+            logic.endSound(True)
+            lbl_GuessedLetters.config(text="U\nWin!")
     else:
         if guess in guessed:
             entry_guesser.delete(0, tk.END)
             return
+        logic.reduceHealth()
+        display_Hangman.create_image(350, 150, image=logic.displayStage())
         guessed.append(guess)
         updateGuessedLetters(guess)
     entry_guesser.delete(0, tk.END)
@@ -51,13 +58,14 @@ lbl_GuessedLetters.grid(column=0, row=0, sticky='w', padx=15)
 
 # frame for everything else
 frame_other_components = tk.Frame(window)
-frame_other_components.grid(column=1, row=0, sticky='nsew') # nses so it can expand everywheere
+frame_other_components.grid(column=1, row=1, sticky='nsew') # nses so it can expand everywheere
 
 lbl_word = tk.Label(frame_other_components, text="_ _ _ _ _", font=("Helvetica", 60))
-lbl_word.grid(column=0, row=0)
+lbl_word.grid(column=0, row=1)
 
 frame_entry = tk.Frame(frame_other_components)
-frame_entry.grid(column=0, row=1, sticky='w')
+frame_entry.grid(column=0, row=2, sticky='w')
+
 
 lbl_EntryTitle = tk.Label(frame_entry, text="Letter:")
 entry_guesser = tk.Entry(frame_entry)
@@ -71,5 +79,12 @@ display_Hangman = tk.Canvas(window, width=683, height=384)
 display_Hangman.create_image(350, 150, image=stage)
 display_Hangman.grid(column=1, row=0)
 
+entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
+def set_bg_white(window):
+    for child in window.winfo_children():
+        child.configure(bg='white')
+        set_bg_white(child)
+
+set_bg_white(window)
 
 window.mainloop()
