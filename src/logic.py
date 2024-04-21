@@ -6,16 +6,19 @@ os.chdir(os.path.dirname(os.path.abspath(__file__))) # auto changes the director
 os.chdir("..") # go up one directory
 os.chdir("assets") # go into the assets folder
 
-stage = 0 # the stage of the game
+stage = 0  # the stage of the game
 
 with open("words.txt", 'r') as f:
-    words = f.read().split() # wordlist
+    words = f.read().split()  # wordlist
 
-word = choice(words) # get a random word (not cryptographically secure)
+word = choice(words)  # get a random word (not cryptographically secure)
 print(word)
+
+
 def checkGuess(guess):
     if guess not in word:
         # if the letter isnt in the word, return false
+        reduceHealth()
         return False
     elif guess in word:
         # returns all instances of the letter in the word
@@ -37,12 +40,24 @@ def displayStage(stage):
     ]
     return stages[stage]
 
+
 def isAlive():
     if stage < 10:
         return True
     else:
         return False
 
+
 def reduceHealth():
     global stage
     stage + 1
+
+
+def endSound(ending):
+    try:
+        if ending == True:
+            playsound("win.wav")
+        else:
+            playsound("lose.wav")
+    except Exception:
+       pass

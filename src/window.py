@@ -1,6 +1,5 @@
 import tkinter as tk
 import logic
-# import PIL
 
 guessed = []
 # External functions
@@ -39,7 +38,8 @@ def submitGuess(event):
 
 # Window definition
 window = tk.Tk()
-window.geometry("600x800")
+window.configure(bg='white')
+window.geometry("800x600")
 
 # frame for guessed letters so it doesnt move everyting else
 frame_guessed_letters = tk.Frame(window)
@@ -65,7 +65,11 @@ entry_guesser = tk.Entry(frame_entry)
 lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
 
-entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
+# Stage Display
+stage = logic.displayStage()  # Keep a reference to the image object
+display_Hangman = tk.Canvas(window, width=683, height=384)
+display_Hangman.create_image(350, 150, image=stage)
+display_Hangman.grid(column=1, row=0)
 
-window.mainloop()  # Open the window
 
+window.mainloop()
