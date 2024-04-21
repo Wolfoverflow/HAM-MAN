@@ -76,4 +76,5 @@ def endSound(ending):
         else:
             playsound("lose.wav")
     except Exception:
-       pass
+        print("Look, okay, i couldn't find the error")
+        pass
