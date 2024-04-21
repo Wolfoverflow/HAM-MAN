@@ -10,6 +10,7 @@ os.chdir("assets")  # go into the assets folder
 
 guessed = []
 win = False
+lose = False
 
 # External functions
 def updateWord(letter, index):
@@ -28,19 +29,18 @@ def updateGuessedLetters(letter):
 
 def submitGuess(event):
     global win
+    global lose
     if win == True:
         return
+    if lose == True:
+        return
+
     global guessed
     guess = event.widget.get()
     if len(guess) > 1 or not guess.isalpha() or len(guess) == 0:
         entry_guesser.delete(0, tk.END)
         return
     indexes = logic.checkGuess(guess)
-    if not logic.isAlive():
-        # logic.endSound(False)
-        lbl_GuessedLetters.config(text="You lose...")
-        display_Hangman.create_image(350, 150, image=images[logic.getStage()])
-        return
 
     if indexes:
         updateWord(guess, indexes)
@@ -54,10 +54,16 @@ def submitGuess(event):
         if guess in guessed:
             entry_guesser.delete(0, tk.END)
             return
+        logic.reduceHealth()
+        if not logic.isAlive():
+            lose = True
+            # logic.endSound(False)
+            lbl_GuessedLetters.config(text="You lose...")
+            display_Hangman.create_image(350, 150, image=images[10])
+            return
         display_Hangman.create_image(350, 150, image=images[logic.getStage()])
         guessed.append(guess)
         updateGuessedLetters(guess)
-        logic.reduceHealth()
     entry_guesser.delete(0, tk.END)
 
 # Window definition
