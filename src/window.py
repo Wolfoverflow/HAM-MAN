@@ -39,9 +39,10 @@ def submitGuess(event):
     guess = event.widget.get()
     if len(guess) > 1 or not guess.isalpha() or len(guess) == 0:
         entry_guesser.delete(0, tk.END)
+        lbl_error.config(text="Invalid input")
         return
     indexes = logic.checkGuess(guess)
-
+    lbl_error.config(text="")
     if indexes:
         updateWord(guess, indexes)
         if "_" not in lbl_word.cget("text"):
@@ -52,6 +53,7 @@ def submitGuess(event):
         return
     else:
         if guess in guessed:
+            lbl_error.config(text="You already guessed that letter")
             entry_guesser.delete(0, tk.END)
             return
         logic.reduceHealth()
@@ -109,6 +111,8 @@ entry_guesser = tk.Entry(frame_entry)
 
 lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
+lbl_error = tk.Label(frame_entry, text="", fg="red")
+lbl_error.grid(column=2, row=0, sticky='w')
 
 # Stage Display
 stage = logic.getStage()  # Keep a reference to the image object
