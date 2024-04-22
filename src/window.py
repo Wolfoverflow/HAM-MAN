@@ -13,6 +13,7 @@ os.chdir("assets")  # go into the assets folder
 guessed = []
 win = False
 lose = False
+word = ""
 
 # Functions to be used outside of the window class
 
@@ -24,6 +25,7 @@ lose = False
 def updateWord(letter, index):
     changed = False
     word = lbl_word.cget("text")
+    wordBackup = word
     for i in index:
         changed = True
         word = list(word)
@@ -31,6 +33,8 @@ def updateWord(letter, index):
         word = ''.join(word) # something abt immutability
         # Source: https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
     lbl_word.config(text=word)
+    if word != wordBackup:
+        changed = True
     return changed
 
 # Updates the list of guessed letters that were incorrect
