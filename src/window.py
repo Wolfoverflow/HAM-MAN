@@ -16,6 +16,8 @@ lose = False
 
 # Functions to be used outside of the window class
 
+# Updates the word that is displayed on the screeen with the guessed letter
+
 # input:  letter:  The letter to be added to the word index:  The index of the letter in the word
 # process:  Updates the word displayed on the screen with the guessed letter
 # output: writes the new text to the label
@@ -31,6 +33,8 @@ def updateWord(letter, index):
     lbl_word.config(text=word)
     return changed
 
+# Updates the list of guessed letters that were incorrect
+
 # input:  letter:  The letter to be added to the guessed letters
 # process:  Adds the letter to the guessed letters
 # output:  Writes the new text which as the guessed latter to the label
@@ -38,6 +42,8 @@ def updateGuessedLetters(letter):
     previous = lbl_GuessedLetters.cget("text")
     letters = previous + letter + "\n"
     lbl_GuessedLetters.config(text=letters)
+
+# Checks if th user won or lost, and also manages the guessed letters and the users guesses
 
 # input:  event:  The event when the enter key is pressed
 # process:  Checks the guess and updates the screen accordingly, win/lose conditions are checked
@@ -141,6 +147,8 @@ display_Hangman.create_image(350, 150, image=images[stage])
 display_Hangman.grid(column=1, row=0)
 
 entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
+
+# Literally just set the background to white, why is it not white by default honestly man.
 
 # input:  The window object
 # process:  Recursively sets the background of all elements to white
