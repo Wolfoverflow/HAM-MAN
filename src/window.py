@@ -27,7 +27,6 @@ def updateWord(letter, index):
     word = lbl_word.cget("text")
     wordBackup = word
     for i in index:
-        changed = True
         word = list(word)
         word[i*2] = letter # this is because you can't change a single character in a string
         word = ''.join(word) # something abt immutability
