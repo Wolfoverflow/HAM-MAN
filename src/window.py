@@ -20,13 +20,16 @@ lose = False
 # process:  Updates the word displayed on the screen with the guessed letter
 # output: writes the new text to the label
 def updateWord(letter, index):
+    changed = False
     word = lbl_word.cget("text")
     for i in index:
+        changed = True
         word = list(word)
         word[i*2] = letter # this is because you can't change a single character in a string
         word = ''.join(word) # something abt immutability
         # Source: https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
     lbl_word.config(text=word)
+    return changed
 
 # input:  letter:  The letter to be added to the guessed letters
 # process:  Adds the letter to the guessed letters
@@ -56,11 +59,13 @@ def submitGuess(event):
     indexes = logic.checkGuess(guess)
     lbl_error.config(text="")
     if indexes:
-        updateWord(guess, indexes)
+        guessed = updateWord(guess, indexes)
         if "_" not in lbl_word.cget("text"):
             # logic.endSound(True)
             lbl_GuessedLetters.config(text="U\nWin!")
             win = True
+        if guessed == False:
+            lbl_error.config(text="You already guessed that letter")
         entry_guesser.delete(0, tk.END)
         return
     else:
