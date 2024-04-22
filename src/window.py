@@ -11,8 +11,7 @@ os.chdir("assets")  # go into the assets folder
 
 # Global variables, stores the guessed letters and the win/lose conditions
 guessed = []
-win = False
-lose = False
+over = False
 word = ""
 
 # Functions to be used outside of the window class
@@ -46,17 +45,17 @@ def updateGuessedLetters(letter):
     letters = previous + letter + "\n"
     lbl_GuessedLetters.config(text=letters)
 
-# Checks if th user won or lost, and also manages the guessed letters and the users guesses
-
-# input:  event:  The event when the enter key is pressed
-# process:  Checks the guess and updates the screen accordingly, win/lose conditions are checked
-# output:  updates the guessed letters or guessed word and displays if you win or lose
+# Checks if the user won or lost, and also manages the guessed letters and the users guesses
+'''
+input:      event: The information about the entry from the event when the enter key is pressed
+process:    Checks if the game is over, otherwise checks if the guess is valid
+            then checks and updates the guessed letters or output word
+output:      updates the guessed letters or guessed word and displays if you win or lose
+it really
+'''
 def submitGuess(event):
-    global win
-    global lose
-    if win == True:
-        return
-    if lose == True:
+    global over
+    if over:
         return
 
     global guessed
@@ -72,7 +71,7 @@ def submitGuess(event):
         if "_" not in lbl_word.cget("text"):
             # logic.endSound(True)
             lbl_GuessedLetters.config(text="U\nWin!")
-            win = True
+            over = True
         if guessed == False:
             lbl_error.config(text="You already guessed that letter")
         entry_guesser.delete(0, tk.END)
@@ -84,7 +83,7 @@ def submitGuess(event):
             return
         logic.reduceHealth()
         if not logic.isAlive():
-            lose = True
+            over = True
             # logic.endSound(False)
             lbl_GuessedLetters.config(text="You lose...")
             display_Hangman.create_image(350, 150, image=images[10])
