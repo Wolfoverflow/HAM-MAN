@@ -8,11 +8,16 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))  # auto changes the directo
 os.chdir("..")  # go up one directory
 os.chdir("assets")  # go into the assets folder
 
+# Global variables, stores the guessed letters and the win/lose conditions
 guessed = []
 win = False
 lose = False
 
-# External functions
+# Functions to be used out side of the window class
+
+# input:  letter:  The letter to be added to the word index:  The index of the letter in the word
+# process:  Updates the word displayed on the screen with the guessed letter
+# output: writes the new text to the label
 def updateWord(letter, index):
     word = lbl_word.cget("text")
     for i in index:
@@ -22,11 +27,17 @@ def updateWord(letter, index):
         # Source: https://stackoverflow.com/questions/10631473/str-object-does-not-support-item-assignment
     lbl_word.config(text=word)
 
+# input:  letter:  The letter to be added to the guessed letters
+# process:  Adds the letter to the guessed letters
+# output:  Writes the new text which as the guessed latter to the label
 def updateGuessedLetters(letter):
     previous = lbl_GuessedLetters.cget("text")
     letters = previous + letter + "\n"
     lbl_GuessedLetters.config(text=letters)
 
+# input:  event:  The event when the enter key is pressed
+# process:  Checks the guess and updates the screen accordingly, win/lose conditions are checked
+# output:  updates the guessed letters or guessed word and displays if you win or lose
 def submitGuess(event):
     global win
     global lose
