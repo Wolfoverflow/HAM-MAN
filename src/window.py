@@ -68,6 +68,7 @@ def submitGuess(event):
 
 # Window definition
 window = tk.Tk()
+window.configure(bg='white')
 window.geometry("800x600")
 
 images = [
