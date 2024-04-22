@@ -1,9 +1,10 @@
 import tkinter as tk
-import logic
-from PIL import Image, ImageTk
 import os
+from PIL import Image, ImageTk
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))  # auto changes the directory so that it can access the text file
+
+import logic
 
 os.chdir("..")  # go up one directory
 os.chdir("assets")  # go into the assets folder

@@ -5,15 +5,11 @@ import sys
 pythonPath = os.path.dirname(sys.executable)
 
 try:
-    from PIL import Image, ImageTk
+    from PIL import Image, ImageTk # Installs Pillow if not installed
 except ImportError:
     os.system(f"{pythonPath} -m pip install pillow")
-    import PIL
-# try:
-#     from playsound import playsound
-# except ImportError:
-#     os.system(f"{pythonPath} -m pip install playsound")
-#     from playsound import playsound
+    print("Installed Pillow, please restart the program")
+    sys.exit()
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))  # auto changes the directory so that it can access the text file
 
@@ -27,7 +23,7 @@ with open("words.txt", 'r') as f:
 
 word = choice(words)  # get a random word (not cryptographically secure)
 
-print(word)
+print(word) # was for debugging, now for when you get tired of guessing
 
 
 def checkGuess(guess):
@@ -38,6 +34,7 @@ def checkGuess(guess):
         # returns all instances of the letter in the word
         indexes = [i for i, letter in enumerate(word) if letter == guess]
         return indexes
+
 
 
 def getStage():
