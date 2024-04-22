@@ -14,7 +14,7 @@ guessed = []
 win = False
 lose = False
 
-# Functions to be used out side of the window class
+# Functions to be used outside of the window class
 
 # input:  letter:  The letter to be added to the word index:  The index of the letter in the word
 # process:  Updates the word displayed on the screen with the guessed letter
@@ -85,7 +85,7 @@ window = tk.Tk()
 window.configure(bg='white')
 window.geometry("800x600")
 
-images = [
+images = [ # Stores the images for the hangman to be access when required
     ImageTk.PhotoImage(Image.open("p0.png")),
     ImageTk.PhotoImage(Image.open("p1.png")),
     ImageTk.PhotoImage(Image.open("p2.png")),
@@ -103,7 +103,7 @@ images = [
 frame_guessed_letters = tk.Frame(window)
 frame_guessed_letters.grid(column=0, row=0, sticky='ns')
 
-# Element definitions
+# Label for displaying the incorrect letters that have been guessed and were wrong
 lbl_GuessedLetters = tk.Label(frame_guessed_letters, text="Failed\nLetters:\n", justify=tk.CENTER, font=("Helvetica", 20))
 lbl_GuessedLetters.grid(column=0, row=0, sticky='w', padx=15)
 
@@ -111,16 +111,19 @@ lbl_GuessedLetters.grid(column=0, row=0, sticky='w', padx=15)
 frame_other_components = tk.Frame(window)
 frame_other_components.grid(column=1, row=1, sticky='nsew') # nses so it can expand everywheere
 
+# shows the word with the letters that have been guessed
 lbl_word = tk.Label(frame_other_components, text="_ _ _ _ _", font=("Helvetica", 60))
 lbl_word.grid(column=0, row=1)
 
+# The place for the user to enter ther guess
 frame_entry = tk.Frame(frame_other_components)
 frame_entry.grid(column=0, row=2, sticky='w')
 
-
+# The text the goes beside the entry box so users know what it is for
 lbl_EntryTitle = tk.Label(frame_entry, text="Letter:")
 entry_guesser = tk.Entry(frame_entry)
 
+# Placing the elements onto the screen in desired locations, including error messages.
 lbl_EntryTitle.grid(column=0, row=0, sticky='e')
 entry_guesser.grid(column=1, row=0, sticky='w')
 lbl_error = tk.Label(frame_entry, text="", fg="red")
