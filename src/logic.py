@@ -34,11 +34,22 @@ def checkGuess(guess):
         # returns all instances of the letter in the word
         indexes = [i for i, letter in enumerate(word) if letter == guess]
         return indexes
-
+'''
+Gets a letter from the user and checks if it is in the word
+Input: A letter from the user (str)
+Process: Iterates through each letter to get the indexes of the letter
+Output: A list of indexes of the letter in the word (list)
+'''
 
 
 def getStage():
     return stage
+'''
+Returns the stage of the game
+Input: stage (int)
+Process: None
+Output: The stage of the game (int)
+'''
 
 
 def isAlive():
@@ -47,13 +58,22 @@ def isAlive():
         return True
     else:
         return False
-
+'''
+Checks if the player has any stages left
+Input: stage (int)
+Process: Checks if the stage is less than 10
+Output: If the player has any stages left (bool)
+'''
 
 def reduceHealth():
     global stage
     stage += 1
-
-
+'''
+Increases the stage/decreases health
+Input: stage (int)
+Process: Increases the stage by 1
+Output: Stage +1 (int)
+'''
 # def endSound(ending):
 #     if ending == True:
 #         sound = AudioSegment.from_wav("win.mp3")
