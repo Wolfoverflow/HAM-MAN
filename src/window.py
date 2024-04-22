@@ -121,11 +121,16 @@ display_Hangman.create_image(350, 150, image=images[stage])
 display_Hangman.grid(column=1, row=0)
 
 entry_guesser.bind("<Return>", submitGuess) # Allows the user to press enter to submit the guess
-def set_bg_white(window):
+
+# input:  The window object
+# process:  Recursively sets the background of all elements to white
+# output:  None or in other words, the winodow with a white background
+
+def set_bg_white(window): # Set the background of all elements to white so that the image isn't out of place.
     for child in window.winfo_children():
         child.configure(bg='white')
         set_bg_white(child)
 
-# set_bg_white(window)
+set_bg_white(window) # Call the function
 
 window.mainloop()
